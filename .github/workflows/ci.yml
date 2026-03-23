@@ -16,7 +16,7 @@ jobs:
       - run: npm ci
       - name: Lint
         run: npx eslint src/ --no-error-on-unmatched-pattern || true
-      - name: Build with webpack
-        run: npm run build
+      - name: Build
+        run: npx webpack --config webpack.config.js
       - name: Run tests
         run: npm test
