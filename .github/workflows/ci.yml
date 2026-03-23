@@ -1,10 +1,11 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
-
+    branches:
+      - main
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -12,7 +13,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: deps-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       - run: npm ci
       - name: Lint
         run: npx eslint src/ --no-error-on-unmatched-pattern || true
