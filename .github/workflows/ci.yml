@@ -1,10 +1,19 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+    paths-ignore:
+      - docs/**
+      - "**/*.md"
+      - LICENSE
   pull_request:
-    branches: [main]
-
+    branches:
+      - main
+    paths-ignore:
+      - docs/**
+      - "**/*.md"
+      - LICENSE
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -12,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
       - run: npm ci
       - name: Lint
         run: npx eslint src/ --no-error-on-unmatched-pattern || true
